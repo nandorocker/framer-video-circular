@@ -15,6 +15,8 @@ vid = new VideoLayer
 	height: 720
 	video: "images/balloons.mp4"
 
+vid.center()
+
 vid.onClick ->
 	if this.player.paused
 		this.player.play()
@@ -48,9 +50,8 @@ layerPath.scale = 1.5
 
 ## Update circle with video
 Events.wrap(vid.player).addEventListener "timeupdate", ->
-# 	print this.duration
+	print this.currentTime
 	sliderNum = Utils.modulate(this.currentTime, [0,this.duration], [0,100])#Utils.round(Utils.modulate(this.currentTime, [0,this.duration], [0,100]),0)
-	print sliderNum
 	svgPath = document.getElementById('svgPath')
 	pathLength = svgPath.getTotalLength()
 	svgPath.style.strokeDasharray = pathLength + ' ' + pathLength;
@@ -58,49 +59,3 @@ Events.wrap(vid.player).addEventListener "timeupdate", ->
 	svgPath.getBoundingClientRect()
 # 	svgPath.style.transition = svgPath.style.WebkitTransition = 'stroke-dashoffset 2s ease-in-out'
 	svgPath.style.strokeDashoffset = pathLength * (1 - (sliderNum / 100))
-
-# 
-# #Create a container to hold the slider UI
-# sliderContainer = new Layer width:550, height:200,backgroundColor:"transparent"
-# sliderContainer.centerX()
-# sliderContainer.y = Screen.height - 300
-# 
-# #The slider background
-# slider = new Layer width:350, height:2, backgroundColor:"#999"
-# slider.superLayer = sliderContainer
-# slider.x = 50
-# slider.centerY()
-# 
-# #The slider highlight
-# sliderBar = new Layer width:0, height:2, backgroundColor:"#CC3A88"
-# sliderBar.superLayer = sliderContainer
-# sliderBar.x = 50
-# sliderBar.centerY()
-# 
-# #The slider drag ui
-# sliderDrag = new Layer width:60, height:60, borderRadius:30, backgroundColor:"#FFF"
-# sliderDrag.superLayer = sliderContainer
-# sliderDrag.x = 50
-# sliderDrag.centerY()
-# sliderDrag.draggable.enabled = true
-# sliderDrag.draggable.vertical = false
-# sliderDrag.draggable.constraints = {x:50, y:0, width:350, height:0}
-# sliderDrag.draggable.overdrag = false
-# 
-# #When the bar is drag, update the highlight bar and reading
-# sliderDrag.on Events.DragMove, ->
-# 	sliderBar.width = sliderDrag.x - 50
-# 	sliderDrag.backgroundColor = "#CC3A88"
-# 	sliderNum = Utils.round(Utils.modulate(sliderDrag.x, [50,340], [0,100]),0)
-# 	
-# 	svgPath = document.getElementById('svgPath')
-# 	pathLength = svgPath.getTotalLength()
-# 	svgPath.style.strokeDasharray = pathLength + ' ' + pathLength;
-# 	svgPath.style.strokeDashoffset = pathLength
-# 	svgPath.getBoundingClientRect()
-# # 	svgPath.style.transition = svgPath.style.WebkitTransition = 'stroke-dashoffset 2s ease-in-out'
-# 	svgPath.style.strokeDashoffset = pathLength * (1 - (sliderNum / 100))
-# 
-# #When the drag is ended, reset the drag color
-# sliderDrag.on Events.DragEnd, ->
-# 	sliderDrag.backgroundColor = "#FFF"
