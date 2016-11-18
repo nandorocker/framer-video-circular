@@ -51,11 +51,11 @@ layerPath.scale = 1.5
 ## Update circle with video
 Events.wrap(vid.player).addEventListener "timeupdate", ->
 	print this.currentTime
-	sliderNum = Utils.modulate(this.currentTime, [0,this.duration], [0,100])#Utils.round(Utils.modulate(this.currentTime, [0,this.duration], [0,100]),0)
+	sliderNum = Utils.modulate(this.currentTime, [0,this.duration], [0,100])
 	svgPath = document.getElementById('svgPath')
 	pathLength = svgPath.getTotalLength()
 	svgPath.style.strokeDasharray = pathLength + ' ' + pathLength;
 	svgPath.style.strokeDashoffset = pathLength
 	svgPath.getBoundingClientRect()
-# 	svgPath.style.transition = svgPath.style.WebkitTransition = 'stroke-dashoffset 2s ease-in-out'
+	svgPath.style.transition = svgPath.style.WebkitTransition = 'stroke-dashoffset .2s ease'
 	svgPath.style.strokeDashoffset = pathLength * (1 - (sliderNum / 100))
